@@ -1,4 +1,4 @@
-#include "rtos_tasks.h"
+#include "satellite_startup.h"
 #include <FreeRTOS.h>
 
 // starts RTOS scheduler
@@ -32,14 +32,8 @@ void startup_task(void *pvParameters)
      However, in EQUISAT, the StaticSemaphore_t was declared in a array of Mutex Addressses but do we need that? since we only need 3 mutexes
      and they needed 10+
     */
-    StaticSemaphore_t _attitude_equistack_mutex_d;
-    _attitude_equistack_mutex = xSemaphoreCreateMutexStatic(&_attitude_equistack_mutex_d);
-
-    // Release the semaphore xSemaphore
-    xSemaphoreGive(SemaphoreHandle_t xSemaphore);
-    // Lock the semaphore xSemaphore. If already occupied, wait xTicksToWait
-    // use portTICK_PERIOD_MS to convert ticks to real-time seconds
-    xSemaphoreTake(SemaphoreHandle_t xSemaphore, TickType_t xTicksToWait);
+    spi_mutex = xSemaphoreCreateMutexStatic(&spi_mutex_d);
+    i2c_mutex = xSemaphoreCreateMutexStatic(&i2c_mutex_d);
 
     // TODO(siddharth): figure out this section
     /************************************************************************/
@@ -71,11 +65,11 @@ void startup_task(void *pvParameters)
                                    StaticTask_t *const pxTaskBuffer);
 
     // TODO:
-    battery_charging_task_handle = xTaskCreateStatic(battery_charging_task,
-                                                     "battery charging action task",
-                                                     TASK_BATTERY_CHARGING_STACK_SIZE,
-                                                     NULL,
-                                                     TASK_BATTERY_CHARGING_PRIORITY,
-                                                     battery_charging_task_stack,
-                                                     &battery_charging_task_buffer);
+    sample_tast_one_handle = xTaskCreateStatic(sample_task_one,
+                                               "battery charging action task",
+                                               TASK_BATTERY_CHARGING_STACK_SIZE,
+                                               NULL,
+                                               TASK_BATTERY_CHARGING_PRIORITY,
+                                               sample_tast_one_stack,
+                                               &sample_tast_one_buffer);
 }

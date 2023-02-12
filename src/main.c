@@ -11,12 +11,13 @@ int main(void)
 
 	/* Create init thread, sensor threads and gatekeeper threads*/
 	run_rtos();
-
-	// TODO:
-	/*
-	1. How do we create a thread process
-	2. How does the FreeRTos global pq work
-	3. How do we create the waitq for the gatekeeper tasks
-	4. Do we need to define certain structs for different tasks (gatekeeper struct, sensor struct, etc)
-	*/
 }
+
+/*
+TODO:
+1. figure out ESSENTIAL INITIALIZATION
+2. figure out xtasktick (knowing that's is a sort of blocking until time expire)
+3. FIgure out i2c header packet thing
+4. FIgure out spi header packet thing (read, write)
+5. FInish setup for sample_task_one
+*/

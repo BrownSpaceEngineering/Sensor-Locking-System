@@ -36,6 +36,12 @@ enum
 StaticTask_t init_task_buffer;
 StackType_t init_task_stack[INIT_TASK_STACK_SIZE];
 
-TaskHandle_t spi_gatekeeper_task;
+// Sephamore Handles
+StaticSemaphore_t _spi_mutex_d;
+SemaphoreHandle_t _spi_mutex;
+StaticSemaphore_t _i2c_mutex_d;
+SemaphoreHandle_t _i2c_mutex;
 
+#define SPI_MUTEX_WAIT_TIME_TICKS (10000 / portTICK_PERIOD_MS)
+#define I2C_MUTEX_WAIT_TIME_TICKS (10000 / portTICK_PERIOD_MS)
 #endif
