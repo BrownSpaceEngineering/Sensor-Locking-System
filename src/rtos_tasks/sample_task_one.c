@@ -8,14 +8,15 @@ void sample_task_one(void *pvParameters)
     init_task_state(sample_task_one); // suspend or run on boot (ALWAYS RUN!)
 
     // Release the semaphore xSemaphore
-    xSemaphoreGive(_spi_mutex);
+    xSemaphoreGive(spi_mutex);
 
     // Lock the semaphore xSemaphore. If already occupied, wait xTicksToWait
     // use portTICK_PERIOD_MS to convert ticks to real-time seconds
-    xSemaphoreTake(_spi_mutex, TickType_t xTicksToWait);
+
+    xSemaphoreTake(spi_mutex, TickType_t xTicksToWait);
 
     uint8_t iter_count = 0;
-    while (true)
+    while (1)
     {
         // report to watchdog
         report_task_running(sample_task_one);

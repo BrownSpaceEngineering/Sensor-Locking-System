@@ -1,4 +1,6 @@
 #include "satellite_startup.h"
+#include "rtos_tasks/sample_task_one.h"
+#include "rtos_task_config.h"
 #include <FreeRTOS.h>
 
 // starts RTOS scheduler
@@ -70,6 +72,6 @@ void startup_task(void *pvParameters)
                                                TASK_BATTERY_CHARGING_STACK_SIZE,
                                                NULL,
                                                TASK_BATTERY_CHARGING_PRIORITY,
-                                               sample_tast_one_stack,
-                                               &sample_tast_one_buffer);
+                                               sample_task_one_stack,
+                                               &sample_task_one_buffer);
 }

@@ -1,5 +1,9 @@
 {
   "files.associations": {
-    "freertos.h": "c"
+    "freertos.h": "c",
+    "sample_task_one.h": "c",
+    "satellite_startup.h": "c",
+    "rtos_task_config.h": "c",
+    "semphr.h": "c"
   }
 }

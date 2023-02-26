@@ -1,5 +1,5 @@
 #include <atmel_start.h>
-#include "rtos_tasks.h"
+#include "satellite_startup.h"
 
 int main(void)
 {

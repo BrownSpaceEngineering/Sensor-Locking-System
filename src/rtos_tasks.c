@@ -1,5 +1,7 @@
-#include "rtos_tasks.h"
+#include "satellite_startup.h"
+#include "rtos_task_config.h"
 #include <FreeRTOS.h>
+#include "semphr.h"
 
 // starts RTOS scheduler
 void run_rtos()
@@ -32,14 +34,28 @@ void startup_task(void *pvParameters)
      However, in EQUISAT, the StaticSemaphore_t was declared in a array of Mutex Addressses but do we need that? since we only need 3 mutexes
      and they needed 10+
     */
-    StaticSemaphore_t _attitude_equistack_mutex_d;
-    _attitude_equistack_mutex = xSemaphoreCreateMutexStatic(&_attitude_equistack_mutex_d);
+    // StaticSemaphore_t _attitude_equistack_mutex_d;
+    // int _attitude_equistack_mutex = xSemaphoreCreateMutexStatic(&_attitude_equistack_mutex_d);
 
-    // Release the semaphore xSemaphore
-    xSemaphoreGive(SemaphoreHandle_t xSemaphore);
-    // Lock the semaphore xSemaphore. If already occupied, wait xTicksToWait
-    // use portTICK_PERIOD_MS to convert ticks to real-time seconds
-    xSemaphoreTake(SemaphoreHandle_t xSemaphore, TickType_t xTicksToWait);
+    // // Release the semaphore xSemaphore
+    // SemaphoreHandle_t xSemaphore;
+    // xSemaphoreGive(xSemaphore);
+    // // Lock the semaphore xSemaphore. If already occupied, wait xTicksToWait
+    // // use portTICK_PERIOD_MS to convert ticks to real-time seconds
+    // xSemaphoreTake(SemaphoreHandle_t xSemaphore, TickType_t xTicksToWait);
+    StaticSemaphore_t _attitude_equistack_mutex_d;
+    SemaphoreHandle_t _attitude_equistack_mutex = xSemaphoreCreateMutexStatic(&_attitude_equistack_mutex_d);
+
+    // Lock the semaphore _attitude_equistack_mutex. If already occupied, wait indefinitely
+    if (xSemaphoreTake(_attitude_equistack_mutex, portMAX_DELAY) == pdTRUE)
+    {
+        // Semaphore taken successfully
+        // Do some critical section work /// what critical work do we want to do in here?
+        // ...
+
+        // Release the semaphore _attitude_equistack_mutex
+        xSemaphoreGive(_attitude_equistack_mutex);
+    }
 
     // TODO(siddharth): figure out this section
     /************************************************************************/
@@ -62,6 +78,7 @@ void startup_task(void *pvParameters)
     /************************************************************************/
 
     // Create a new task and add it to the list of tasks that are ready to run
+    // https://www.freertos.org/xTaskCreateStatic.html
     TaskHandle_t xTaskCreateStatic(TaskFunction_t pxTaskCode,
                                    const char *const pcName,
                                    const uint32_t ulStackDepth,

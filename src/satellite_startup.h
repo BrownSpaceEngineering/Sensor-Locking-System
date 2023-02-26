@@ -1,33 +1,16 @@
-#ifndef RTOS_TASKS_H
-#define RTOS_TASKS_H
+#ifndef SATELLITE_STARTUP_H
+#define SATELLITE_STARTUP_H
 
 #include <FreeRTOS.h>
+#include "task.h"
+#include "semphr.h"
+#include "rtos_task_config.h"
 
 /************************************************************************/
 /* Function Signatures                                                  */
 /************************************************************************/
 void run_rtos();
 void startup_task(void *pvParameteres);
-
-/************************************************************************/
-/* Classes of Task Priorities                                           */
-/************************************************************************/
-// lowest priority is at the top
-enum
-{
-    STATE_HANDLING_PRIORITY = 1,
-};
-
-// TODO: why different stack size release vs not release in Equisatos
-// 1536 = 1024 + 512
-// 1792 = 1024 + 512 + 256
-
-/************************************************************************/
-/* Task Properties - see below for frequencies							*/
-/************************************************************************/
-
-#define INIT_TASK_STACK_SIZE (1536 / sizeof(portSTACK_TYPE))
-#define INIT_TASK_PRIORITY (STATE_HANDLING_PRIORITY)
 
 /******************************************************************************/
 /* Global static memory allocated for tasks; stack and data structure holding */
@@ -36,11 +19,17 @@ enum
 StaticTask_t init_task_buffer;
 StackType_t init_task_stack[INIT_TASK_STACK_SIZE];
 
+StaticTask_t sample_task_one_buffer;
+StackType_t sample_task_one_stack[TASK_BATTERY_CHARGING_STACK_SIZE];
+
 // Sephamore Handles
-StaticSemaphore_t _spi_mutex_d;
-SemaphoreHandle_t _spi_mutex;
-StaticSemaphore_t _i2c_mutex_d;
-SemaphoreHandle_t _i2c_mutex;
+StaticSemaphore_t spi_mutex_d;
+SemaphoreHandle_t spi_mutex;
+StaticSemaphore_t i2c_mutex_d;
+SemaphoreHandle_t i2c_mutex;
+
+// Tasks
+TaskHandle_t sample_tast_one_handle;
 
 #define SPI_MUTEX_WAIT_TIME_TICKS (10000 / portTICK_PERIOD_MS)
 #define I2C_MUTEX_WAIT_TIME_TICKS (10000 / portTICK_PERIOD_MS)
