@@ -31,6 +31,9 @@ SemaphoreHandle_t i2c_mutex;
 // Tasks
 TaskHandle_t sample_tast_one_handle;
 
+#define configTICK_RATE_HZ ((TickType_t)1000) // so portTICK_PERIOD_MS = 1
+#define portTICK_PERIOD_MS ((TickType_t)1000 / configTICK_RATE_HZ)
+
 #define SPI_MUTEX_WAIT_TIME_TICKS (10000 / portTICK_PERIOD_MS)
 #define I2C_MUTEX_WAIT_TIME_TICKS (10000 / portTICK_PERIOD_MS)
 #endif

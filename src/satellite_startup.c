@@ -20,7 +20,7 @@ void startup_task(void *pvParameters)
 {
     // TODO: something about initializing watchdog task or something like that
     print("PVDXos starting..");
-    xTaskCreateStatic();
+    // xTaskCreateStatic();
 
     //"Voltage do shit -Siddharth 2023"
 
@@ -58,15 +58,14 @@ void startup_task(void *pvParameters)
     /************************************************************************/
 
     // Create a new task and add it to the list of tasks that are ready to run
-    TaskHandle_t xTaskCreateStatic(TaskFunction_t pxTaskCode,
-                                   const char *const pcName,
-                                   const uint32_t ulStackDepth,
-                                   void *const pvParameters,
-                                   UBaseType_t uxPriority,
-                                   StackType_t *const puxStackBuffer,
-                                   StaticTask_t *const pxTaskBuffer);
+    // TaskHandle_t xTaskCreateStatic(TaskFunction_t pxTaskCode,
+    //                                const char *const pcName,
+    //                                const uint32_t ulStackDepth,
+    //                                void *const pvParameters,
+    //                                UBaseType_t uxPriority,
+    //                                StackType_t *const puxStackBuffer,
+    //                                StaticTask_t *const pxTaskBuffer);
 
-    // TODO:
     sample_tast_one_handle = xTaskCreateStatic(sample_task_one,
                                                "battery charging action task",
                                                TASK_BATTERY_CHARGING_STACK_SIZE,
